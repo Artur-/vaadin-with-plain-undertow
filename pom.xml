@@ -32,6 +32,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+            <version>7.5.3</version>
+        </dependency>
         <!-- Using dawn instead of core themes for smallest possible Valo theme-->
         <!-- And not even serving from app server but from http://virit.in/, see MainClazz  -->
 <!--        <dependency>
@@ -51,6 +56,11 @@
             <artifactId>undertow-servlet</artifactId>
             <version>1.2.10.Final</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-websockets-jsr</artifactId>
+            <version>1.2.10.Final</version>
         </dependency>
     </dependencies>
     <build>

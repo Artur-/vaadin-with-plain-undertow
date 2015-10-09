@@ -4,9 +4,11 @@ import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.DeploymentManager;
 import io.undertow.servlet.api.ListenerInfo;
 import io.undertow.servlet.api.ServletInfo;
+import io.undertow.websockets.jsr.WebSocketDeploymentInfo;
 
 import javax.servlet.ServletException;
 
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -23,14 +25,20 @@ public class MainClazz {
     public static void main(String... args) throws ServletException {
 
         ServletInfo servletInfo = new ServletInfo("vaadin", MyServlet.class)
-                .addMapping("/*").addInitParam("Resources",
-                        "http://virit.in/dawn/11");
+                .addMapping("/*")
+                .addInitParam("Resources", "http://virit.in/dawn/11")
+                .setAsyncSupported(true);
 
-        DeploymentInfo deployment = Servlets.deployment()
+        DeploymentInfo deployment = Servlets
+                .deployment()
                 .setClassLoader(Thread.currentThread().getContextClassLoader())
-                .setContextPath("/").setDeploymentName("vaadin")
+                .setContextPath("/")
+                .setDeploymentName("vaadin")
                 .addServlets(servletInfo)
-                .addListeners(new ListenerInfo(in.virit.WidgetSet.class));
+                .addListeners(new ListenerInfo(in.virit.WidgetSet.class))
+                .addServletContextAttribute(
+                        WebSocketDeploymentInfo.ATTRIBUTE_NAME,
+                        new WebSocketDeploymentInfo());
 
         DeploymentManager dm = Servlets.defaultContainer().addDeployment(
                 deployment);
@@ -47,6 +55,7 @@ public class MainClazz {
     }
 
     @Theme("valo")
+    @Push
     public static class MyUI extends UI {
 
         @Override
